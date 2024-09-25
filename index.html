@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Juliet Morris">
+
+<title>STA5073Z Assignment 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="MRRJUL007_A1_html_files/libs/clipboard/clipboard.min.js"></script>
+<script src="MRRJUL007_A1_html_files/libs/quarto-html/quarto.js"></script>
+<script src="MRRJUL007_A1_html_files/libs/quarto-html/popper.min.js"></script>
+<script src="MRRJUL007_A1_html_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="MRRJUL007_A1_html_files/libs/quarto-html/anchor.min.js"></script>
+<link href="MRRJUL007_A1_html_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="MRRJUL007_A1_html_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="MRRJUL007_A1_html_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="MRRJUL007_A1_html_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="MRRJUL007_A1_html_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="MRRJUL007_A1_html_files/libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="MRRJUL007_A1_html_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ensemble-recommender-system-for-book-recommendations" id="toc-ensemble-recommender-system-for-book-recommendations" class="nav-link active" data-scroll-target="#ensemble-recommender-system-for-book-recommendations">Ensemble Recommender System for Book Recommendations</a>
+  <ul class="collapse">
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">1. Exploratory Data Analysis</a>
+  <ul class="collapse">
+  <li><a href="#books" id="toc-books" class="nav-link" data-scroll-target="#books">1.1 Books</a></li>
+  <li><a href="#users" id="toc-users" class="nav-link" data-scroll-target="#users">1.2 Users</a></li>
+  <li><a href="#ratings" id="toc-ratings" class="nav-link" data-scroll-target="#ratings">1.3 Ratings</a></li>
+  </ul></li>
+  <li><a href="#item-based-collaborative-filtering" id="toc-item-based-collaborative-filtering" class="nav-link" data-scroll-target="#item-based-collaborative-filtering">2. Item-Based Collaborative Filtering</a>
+  <ul class="collapse">
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">2.1 Data Preparation</a></li>
+  <li><a href="#applying-the-method" id="toc-applying-the-method" class="nav-link" data-scroll-target="#applying-the-method">2.2 Applying the Method</a></li>
+  </ul></li>
+  <li><a href="#user-based-collaborative-filtering" id="toc-user-based-collaborative-filtering" class="nav-link" data-scroll-target="#user-based-collaborative-filtering">3. User-Based Collaborative Filtering</a>
+  <ul class="collapse">
+  <li><a href="#data-preparation-1" id="toc-data-preparation-1" class="nav-link" data-scroll-target="#data-preparation-1">3.1 Data Preparation</a></li>
+  <li><a href="#applying-the-method-1" id="toc-applying-the-method-1" class="nav-link" data-scroll-target="#applying-the-method-1">3.2 Applying the Method</a></li>
+  </ul></li>
+  <li><a href="#matrix-factorization" id="toc-matrix-factorization" class="nav-link" data-scroll-target="#matrix-factorization">4. Matrix Factorization</a>
+  <ul class="collapse">
+  <li><a href="#data-preparation-2" id="toc-data-preparation-2" class="nav-link" data-scroll-target="#data-preparation-2">4.1 Data Preparation</a></li>
+  <li><a href="#applying-the-method-2" id="toc-applying-the-method-2" class="nav-link" data-scroll-target="#applying-the-method-2">4.2 Applying the Method</a></li>
+  </ul></li>
+  <li><a href="#ensemble-recommender-system-model" id="toc-ensemble-recommender-system-model" class="nav-link" data-scroll-target="#ensemble-recommender-system-model">5. Ensemble Recommender System Model</a>
+  <ul class="collapse">
+  <li><a href="#model-accuracy" id="toc-model-accuracy" class="nav-link" data-scroll-target="#model-accuracy">5.1 Model Accuracy</a></li>
+  <li><a href="#making-recommendations" id="toc-making-recommendations" class="nav-link" data-scroll-target="#making-recommendations">5.2 Making Recommendations</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">6. Conclusion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">STA5073Z Assignment 1</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Juliet Morris </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div style="page-break-after: always;"></div>
+<section id="ensemble-recommender-system-for-book-recommendations" class="level1">
+<h1>Ensemble Recommender System for Book Recommendations</h1>
+<p>The aim of this assignment is to build an ensemble recommender system to recommend books to users based on their ratings of previously read books. The ensemble recommender system makes use of three different recommender system algorithms; item-based collaborative filtering, user-based collaborative filtering and matrix factorization. The recommender system is able to provide recommendations for existing and new users, provided a new user provides ratings for a small number of books in the books database.</p>
+<section id="exploratory-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis">1. Exploratory Data Analysis</h2>
+<p>The data used in this project comes from a partially pre-processed verion of the “Book-Crossing” dataset hosted on the Kaggle website. The dataset contains 278,858 users, providing 1,149,780 explicit and implicit ratings for 271,379 books <span class="citation" data-cites="kaggleDataset">(<a href="#ref-kaggleDataset" role="doc-biblioref">Nicoomanesh 2023</a>)</span>. The data is stored in three different csv files: one containing the information about the books (Books.csv), another containing information about the users (Users.csv) and the final csv containing the ratings (Ratings.csv).</p>
+<section id="books" class="level3">
+<h3 class="anchored" data-anchor-id="books">1.1 Books</h3>
+<p>The three csv files were read into R and stored as dataframes. The books dataframe had eight columns. The columns contained information about the ISBN, book title, book author, year of publication, publisher and three columns for the image URLs (small, medium and large) that point to the Amazon website <span class="citation" data-cites="kaggleDataset">(<a href="#ref-kaggleDataset" role="doc-biblioref">Nicoomanesh 2023</a>)</span>. The unnecessary columns were then removed, leaving only the ISBN, book title, book author and year of publication columns in the dataframe. The dataframe did not contain any NA values.</p>
+</section>
+<section id="users" class="level3">
+<h3 class="anchored" data-anchor-id="users">1.2 Users</h3>
+<p>The user dataframe had three columns containg information about the user ID, location and age. The dataframe had 110762 rows with NA values. However, since all of the NA values occur in age column, these rows won’t be removed as the user age isn’t necessary for the analysis.</p>
+</section>
+<section id="ratings" class="level3">
+<h3 class="anchored" data-anchor-id="ratings">1.3 Ratings</h3>
+<p>The ratings dataframe had three columns that contained information about the user ID, ISBN and book rating. The dataframe did not contain any NA values. The ratings dataframe contains ratings from 105283 unique users for 340556 unique books.</p>
+<p>The ratings contained in the dataframe are either explicit and range from 1 to 10, or implicit and recorded as zero. A higher explicit rating value indicates higher appreciation of the book <span class="citation" data-cites="kaggleDataset">(<a href="#ref-kaggleDataset" role="doc-biblioref">Nicoomanesh 2023</a>)</span>. The implicit ratings are inferred from the user’s interaction with the book but do not involved a direct rating <span class="citation" data-cites="implicitScores">(<a href="#ref-implicitScores" role="doc-biblioref">Kordumova et al. 2010</a>)</span>. There were 716109 rows with a book rating of zero in the dataframe. These rows were removed as they aren’t actual rating scores and won’t be useful for the recommendation system.</p>
+<p>As it can be seen, there are more unique books values in the ratings dataframe than there are in the books dataframe. There are 36137 ISBN numbers that are present in the ratings dataframe but absent from books dataframe. The ratings for these books were removed from the ratings dataframe as the book information, such as title and author, is unavailable for these entries. After the removal of these books from the ratings dataframe, the final ratings dataframe had 383842 observations, 68091 unique users, and 149836 unique books.</p>
+<div class="cell">
+<div id="tbl-book-user-metrics" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-book-user-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Descriptive statistics showing the distribution of the number of ratings per book and the number of ratings per user in the ratings data set. This includes the minimum, first quartile, median, mean, third quartile and maximum values for each variable.
+</figcaption>
+<div aria-describedby="tbl-book-user-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Num. Ratings Per:</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Minimum</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">1st Quartile</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Median</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Mean</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">3rd Quartile</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Maximum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Book</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">2.562</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">707</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">User</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">5.637</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">6943</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The number of ratings per book and per user in the ratings dataframe was then computed. <a href="#tbl-book-user-metrics" class="quarto-xref">Table&nbsp;1</a> shows the descriptive statistics for the distribution of the number of ratings per book and per user. It can be seen from the table that at least half of the books and users only have 1 rating. There are 99413 books and 39223 users with only 1 rating.</p>
+<p>Including books and users with only one rating will lead to matrices with high degrees of sparsity. In an attempt to decrease the degree of sparsity and reduce the dataset to a more manageable number of observations, the data was filtered to only include books and users that have more than 10 ratings. The data was initially filtered to books and users with more than one rating, as this was the median number of ratings. However, there were still too many observations in the dataset, causing RStudio to crash when computing similarity matrices. The final filtering was conducted by first removing the ratings for books with less than 11 ratings and then removing the ratings from users with less than 11 ratings. The final filtered ratings dataframe had 80449 observations with 4782 unique books and 5720 unique users. The average number of ratings (rounded to the nearest whole number) per book was 17 and per user was 14. The median number of ratings per book was 12 and per user was 8.</p>
+</section>
+</section>
+<section id="item-based-collaborative-filtering" class="level2">
+<h2 class="anchored" data-anchor-id="item-based-collaborative-filtering">2. Item-Based Collaborative Filtering</h2>
+<p>The aim of this section was to build a recommender system using item-based collaborative filtering that will predict the rating that a user will give a book. Item-based collaborative filtering involves analysing the user-item matrix to identify relationships between different items and then using these relationships to indirectly compute recommendations for users <span class="citation" data-cites="sarwar2001item">(<a href="#ref-sarwar2001item" role="doc-biblioref">Sarwar et al. 2001</a>)</span>.</p>
+<section id="data-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="data-preparation">2.1 Data Preparation</h3>
+<p>To prepare the ratings data for item-based collaborative filtering (CF), two matrices were generated. The first matrix was the book ratings matrix where each column is a user, and each row is a book. The second matrix was an item-item cosine similarity matrix, generated using the book ratings matrix.</p>
+</section>
+<section id="applying-the-method" class="level3">
+<h3 class="anchored" data-anchor-id="applying-the-method">2.2 Applying the Method</h3>
+<p>The basic idea of CF recommender system algorithms is to provide item recommendations for users based on the opinions of other like-minded users <span class="citation" data-cites="sarwar2001item">(<a href="#ref-sarwar2001item" role="doc-biblioref">Sarwar et al. 2001</a>)</span>. In the application of item-based CF for book recommendations, the books are evaluated based on their similarity to books that the user has already read.</p>
+<p>In order to generate recommendations for a single user with item-based CF, a recommendation score is calculated for each book. To calculate the book’s recommendation score, the similarities between that book and the other books read by the user are retrieved from the book similarity matrix. These similarities are then summed across the columns, where each column represents a book read by the user <span class="citation" data-cites="sarwar2001item">(<a href="#ref-sarwar2001item" role="doc-biblioref">Sarwar et al. 2001</a>)</span>. To generate the final recommendations, books that have already been read by the user are removed and the remaining books are sorted in descending order of the recommendation score.</p>
+<div class="cell">
+<div id="tbl-b-cf-example1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-b-cf-example1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: An example of the top ten books recommended for user 46443 using item-based collaborative filtering.
+</figcaption>
+<div aria-describedby="tbl-b-cf-example1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Rank</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Title</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">ISBN</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Recommendation Score</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Predicted Rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">These Happy Golden Years (Little House)</td>
+<td style="text-align: left;">0064400085</td>
+<td style="text-align: right;">2.010</td>
+<td style="text-align: right;">8.723</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Jade Peony</td>
+<td style="text-align: left;">1550544683</td>
+<td style="text-align: right;">1.879</td>
+<td style="text-align: right;">8.457</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Free</td>
+<td style="text-align: left;">1844262553</td>
+<td style="text-align: right;">1.879</td>
+<td style="text-align: right;">8.457</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Due di due (Bestsellers)</td>
+<td style="text-align: left;">8804342838</td>
+<td style="text-align: right;">1.879</td>
+<td style="text-align: right;">8.457</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Novocento, Un Monologo</td>
+<td style="text-align: left;">8807813025</td>
+<td style="text-align: right;">1.879</td>
+<td style="text-align: right;">8.457</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">Oceano Mare</td>
+<td style="text-align: left;">8817106100</td>
+<td style="text-align: right;">1.879</td>
+<td style="text-align: right;">8.457</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">On the Banks of Plum Creek</td>
+<td style="text-align: left;">0064400042</td>
+<td style="text-align: right;">1.862</td>
+<td style="text-align: right;">8.714</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">Postmortem</td>
+<td style="text-align: left;">0743477154</td>
+<td style="text-align: right;">1.630</td>
+<td style="text-align: right;">8.426</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">When the Bough Breaks (Alex Delaware Novels (Paperback))</td>
+<td style="text-align: left;">0553569619</td>
+<td style="text-align: right;">1.618</td>
+<td style="text-align: right;">8.491</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">Mixed Blessings</td>
+<td style="text-align: left;">0440214114</td>
+<td style="text-align: right;">1.617</td>
+<td style="text-align: right;">8.502</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="cell">
+<div id="tbl-b-cf-example2" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-b-cf-example2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: An example of the top ten books recommended for user 277157 using item-based collaborative filtering.
+</figcaption>
+<div aria-describedby="tbl-b-cf-example2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Rank</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Title</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">ISBN</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Recommendation Score</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Predicted Rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Lost Light</td>
+<td style="text-align: left;">0316154601</td>
+<td style="text-align: right;">2.110</td>
+<td style="text-align: right;">6.660</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">The Conspiracy Club</td>
+<td style="text-align: left;">0345452577</td>
+<td style="text-align: right;">2.094</td>
+<td style="text-align: right;">6.514</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Blood Orchid (Holly Barker Novels (Hardcover))</td>
+<td style="text-align: left;">0399149295</td>
+<td style="text-align: right;">2.089</td>
+<td style="text-align: right;">6.516</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Partner in Crime</td>
+<td style="text-align: left;">0380977303</td>
+<td style="text-align: right;">2.059</td>
+<td style="text-align: right;">6.548</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Courting Trouble</td>
+<td style="text-align: left;">0060185147</td>
+<td style="text-align: right;">2.000</td>
+<td style="text-align: right;">6.631</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">The Future Scrolls</td>
+<td style="text-align: left;">0821775863</td>
+<td style="text-align: right;">1.992</td>
+<td style="text-align: right;">6.701</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">Due di due (Bestsellers)</td>
+<td style="text-align: left;">8804342838</td>
+<td style="text-align: right;">1.991</td>
+<td style="text-align: right;">6.455</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">Novocento, Un Monologo</td>
+<td style="text-align: left;">8807813025</td>
+<td style="text-align: right;">1.991</td>
+<td style="text-align: right;">6.455</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">Jade Peony</td>
+<td style="text-align: left;">1550544683</td>
+<td style="text-align: right;">1.991</td>
+<td style="text-align: right;">6.455</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">Free</td>
+<td style="text-align: left;">1844262553</td>
+<td style="text-align: right;">1.991</td>
+<td style="text-align: right;">6.455</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p><a href="#tbl-b-cf-example1" class="quarto-xref">Table&nbsp;2</a> and <a href="#tbl-b-cf-example2" class="quarto-xref">Table&nbsp;3</a> show examples of the top 10 books recommended with item-based CF for two different users: users 46443 and 277157 respectively. The books are sorted in descending order of the recommendation score, but the predicted rating is also included. To calculate the predicted rating, the book similarities are first standardised to sum to one across all the books rated by the user. The predicted rating is then the sum of the product of the user ratings and the standardised item similarities. The weighted sum is scaled by the sum of the similarities so that the predicted rating is in the same predefined range as the actual ratings <span class="citation" data-cites="sarwar2001item">(<a href="#ref-sarwar2001item" role="doc-biblioref">Sarwar et al. 2001</a>)</span>. It can be seen in the tables that a higher recommendation score does not necessarily translate to a higher predicted rating. For example, The Lost Light book in <a href="#tbl-b-cf-example2" class="quarto-xref">Table&nbsp;3</a> has the highest recommendation score but The Future Scrolls book has a higher predicted rating (6.701) than the Lost Light book (6.660).</p>
+<p>The two users shown in the tables (<a href="#tbl-b-cf-example1" class="quarto-xref">Table&nbsp;2</a> and <a href="#tbl-b-cf-example2" class="quarto-xref">Table&nbsp;3</a>) were chosen for use as examples as they have each rated between ten and 25 books and have different average book ratings. User 46443 has rated 23 books with an average rating of 8.739. User 277157 has rated 13 books with an average rating of 6.462. The item-based predicted ratings for both users seem to be close to their respective average ratings (<a href="#tbl-b-cf-example1" class="quarto-xref">Table&nbsp;2</a> and <a href="#tbl-b-cf-example2" class="quarto-xref">Table&nbsp;3</a>). These users are also used as the example users for the other recommender system methods so that the results can be compared between methods.</p>
+</section>
+</section>
+<section id="user-based-collaborative-filtering" class="level2">
+<h2 class="anchored" data-anchor-id="user-based-collaborative-filtering">3. User-Based Collaborative Filtering</h2>
+<p>The aim of this section was to build a recommender system using user-based collaborative filtering that will predict the rating that a user will give a book. User-based collaborative filtering involves identifying users similar to the target user and weighting recommendations by the user similarities <span class="citation" data-cites="wang2021user">(<a href="#ref-wang2021user" role="doc-biblioref">H. Wang et al. 2021</a>)</span>.</p>
+<section id="data-preparation-1" class="level3">
+<h3 class="anchored" data-anchor-id="data-preparation-1">3.1 Data Preparation</h3>
+<p>To prepare the ratings data for user-based collaborative filtering (CF), two matrices were generated. The first matrix was the user ratings matrix where each column is a book, and each row is a user. The second matrix was a user-user cosine similarity matrix, generated using the user ratings matrix.</p>
+</section>
+<section id="applying-the-method-1" class="level3">
+<h3 class="anchored" data-anchor-id="applying-the-method-1">3.2 Applying the Method</h3>
+<p>In user-based CF, the book recommendations are weighted by the target user’s similarity to other users. In order to generate recommendations for a single user with user-based CF, a recommendation score is calculated for each book. To calculate the book’s recommendation score, the dot product of the target user’s similarity scores and the user ratings matrix is computed. A book’s recommendation score is therefore the sum of the book’s ratings (across all users) weighted by the user similarities to the target user <span class="citation" data-cites="wang2006unifying">(<a href="#ref-wang2006unifying" role="doc-biblioref">J. Wang, De Vries, and Reinders 2006</a>)</span>. Therefore, the book rating of a user that is more similar to the target user would count more than a user that is less similar. To generate the final recommendations, books that have already been read by the user are removed and the remaining books are sorted in descending order of the recommendation score.</p>
+<div class="cell">
+<div id="tbl-ub-cf-example1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ub-cf-example1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: An example of the top ten books recommended for user 46443 using user-based collaborative filtering.
+</figcaption>
+<div aria-describedby="tbl-ub-cf-example1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Rank</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Title</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">ISBN</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Recommendation Score</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Predicted Rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">The Lovely Bones: A Novel</td>
+<td style="text-align: left;">0316666343</td>
+<td style="text-align: right;">42.807</td>
+<td style="text-align: right;">8.142</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">The Red Tent (Bestselling Backlist)</td>
+<td style="text-align: left;">0312195516</td>
+<td style="text-align: right;">34.272</td>
+<td style="text-align: right;">8.384</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">The Da Vinci Code</td>
+<td style="text-align: left;">0385504209</td>
+<td style="text-align: right;">32.503</td>
+<td style="text-align: right;">8.379</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Girl with a Pearl Earring</td>
+<td style="text-align: left;">0452282152</td>
+<td style="text-align: right;">26.587</td>
+<td style="text-align: right;">8.063</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Divine Secrets of the Ya-Ya Sisterhood: A Novel</td>
+<td style="text-align: left;">0060928336</td>
+<td style="text-align: right;">25.642</td>
+<td style="text-align: right;">8.315</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">Snow Falling on Cedars</td>
+<td style="text-align: left;">067976402X</td>
+<td style="text-align: right;">22.722</td>
+<td style="text-align: right;">8.094</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">Two for the Dough</td>
+<td style="text-align: left;">0671001795</td>
+<td style="text-align: right;">22.595</td>
+<td style="text-align: right;">8.040</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">Where the Heart Is (Oprah's Book Club (Paperback))</td>
+<td style="text-align: left;">0446672211</td>
+<td style="text-align: right;">22.581</td>
+<td style="text-align: right;">8.425</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">The No. 1 Ladies' Detective Agency (Today Show Book Club #8)</td>
+<td style="text-align: left;">1400034779</td>
+<td style="text-align: right;">22.334</td>
+<td style="text-align: right;">8.533</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">Harry Potter and the Sorcerer's Stone (Harry Potter (Paperback))</td>
+<td style="text-align: left;">059035342X</td>
+<td style="text-align: right;">22.179</td>
+<td style="text-align: right;">9.013</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="cell">
+<div id="tbl-ub-cf-example2" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ub-cf-example2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5: An example of the top ten books recommended for user 277157 using user-based collaborative filtering.
+</figcaption>
+<div aria-describedby="tbl-ub-cf-example2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Rank</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Title</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">ISBN</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Recommendation Score</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Predicted Rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">The Da Vinci Code</td>
+<td style="text-align: left;">0385504209</td>
+<td style="text-align: right;">12.135</td>
+<td style="text-align: right;">8.799</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">The Lovely Bones: A Novel</td>
+<td style="text-align: left;">0316666343</td>
+<td style="text-align: right;">9.838</td>
+<td style="text-align: right;">7.869</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Blow Fly: A Scarpetta Novel</td>
+<td style="text-align: left;">0399150897</td>
+<td style="text-align: right;">7.609</td>
+<td style="text-align: right;">7.951</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">The Five People You Meet in Heaven</td>
+<td style="text-align: left;">0786868716</td>
+<td style="text-align: right;">7.596</td>
+<td style="text-align: right;">8.926</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">The Conspiracy Club</td>
+<td style="text-align: left;">0345452577</td>
+<td style="text-align: right;">6.621</td>
+<td style="text-align: right;">7.497</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">The Narrows: A Novel</td>
+<td style="text-align: left;">0316155306</td>
+<td style="text-align: right;">6.604</td>
+<td style="text-align: right;">8.117</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">Naked Prey</td>
+<td style="text-align: left;">0399150439</td>
+<td style="text-align: right;">6.362</td>
+<td style="text-align: right;">8.966</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">Hidden Prey</td>
+<td style="text-align: left;">039915180X</td>
+<td style="text-align: right;">5.820</td>
+<td style="text-align: right;">8.055</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">Therapy</td>
+<td style="text-align: left;">0345452593</td>
+<td style="text-align: right;">5.816</td>
+<td style="text-align: right;">7.253</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">The Lake House</td>
+<td style="text-align: left;">0316603287</td>
+<td style="text-align: right;">5.813</td>
+<td style="text-align: right;">7.176</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p><a href="#tbl-ub-cf-example1" class="quarto-xref">Table&nbsp;4</a> and <a href="#tbl-ub-cf-example2" class="quarto-xref">Table&nbsp;5</a> show examples of the top 10 books recommended with user-based CF for users 46443 and 277157 respectively. The books are sorted in descending order of the recommendation score, but the predicted rating is also included. To calculate the predicted rating, the user similarities are first standardised to sum to one across all the books rated by the user. The predicted rating is then the sum of the product of the book ratings and the standardised user similarities <span class="citation" data-cites="wang2006unifying">(<a href="#ref-wang2006unifying" role="doc-biblioref">J. Wang, De Vries, and Reinders 2006</a>)</span>. As with the item-based CF recommendation scores, a higher user-based CF recommendation score does not necessarily translate to a higher predicted rating (<a href="#tbl-ub-cf-example1" class="quarto-xref">Table&nbsp;4</a> and <a href="#tbl-ub-cf-example2" class="quarto-xref">Table&nbsp;5</a>). The only book that is in the top ten recommended books for both the item-based and user-base CF recommendations, is The Conspiracy Club for user 277157. This book has an item-based predicted rating of 6.514 (<a href="#tbl-b-cf-example2" class="quarto-xref">Table&nbsp;3</a>) and a user-based predicted rating of 7.497 (<a href="#tbl-ub-cf-example2" class="quarto-xref">Table&nbsp;5</a>). Overall, the user-based predicted ratings for user 277157 are higher than their average rating and the item-based predicted ratings (<a href="#tbl-b-cf-example2" class="quarto-xref">Table&nbsp;3</a> and <a href="#tbl-ub-cf-example2" class="quarto-xref">Table&nbsp;5</a>). In contrast, user 46443’s user-based predicted ratings are similar to their item-based predicted ratings (<a href="#tbl-b-cf-example1" class="quarto-xref">Table&nbsp;2</a> and <a href="#tbl-ub-cf-example1" class="quarto-xref">Table&nbsp;4</a>).</p>
+</section>
+</section>
+<section id="matrix-factorization" class="level2">
+<h2 class="anchored" data-anchor-id="matrix-factorization">4. Matrix Factorization</h2>
+<p>The aim of this section was to build a recommender system using matrix factorization that will predict the rating that a user will give a book. The accuracy of the matrix factorization recommender system with and without regularization was assessed using the root mean squared error (RMSE).</p>
+<p>Matrix factorization characterises both items and users as vectors of factors derived from patterns in item ratings. An item is considered to be a good recommendation for a user when there is high correspondence between item and user factors. This method is popular due to its combination of good scalability with predictive accuracy <span class="citation" data-cites="koren2009matrix">(<a href="#ref-koren2009matrix" role="doc-biblioref">Koren, Bell, and Volinsky 2009</a>)</span>. The matrix factorization was performed using the <code>recosystem</code> package <span class="citation" data-cites="recosystem">(<a href="#ref-recosystem" role="doc-biblioref">Qiu et al. 2023</a>)</span>.</p>
+<section id="data-preparation-2" class="level3">
+<h3 class="anchored" data-anchor-id="data-preparation-2">4.1 Data Preparation</h3>
+<p>Since the <code>recosystem</code> functions use item and user indices instead of actual values, indices were assigned to the books and users and stored as additional columns in the ratings dataframe. To prepare the data for matrix factorization and to assess the accuracy of the model, the ratings data was split into training and test sets with an 80/20 split. After splitting the data, any ratings from users that were present in the test data but not the training data were moved to the training dataset. This was then repeated for the ratings for books that were present in the test data but not the training data. This was done because the recommender system algorithms used in this assignment are unable to make predictions for users and books that aren’t present in the data used to generate the matrices and train the models.</p>
+</section>
+<section id="applying-the-method-2" class="level3">
+<h3 class="anchored" data-anchor-id="applying-the-method-2">4.2 Applying the Method</h3>
+<p>Before training the matrix factorization model, the <code>tune</code> function from the <code>recosystem</code> package was used to perform 5-fold cross validation in order to determine the best combination of parameters to use in the model training. The tested parameters included a value of 5 or 10 for the latent vector dimensionality; learning rate values of 0.05, 0.1 or 0.15; l2 penalty for the p factors of 0.01 or 0.1; and l2 penalty for the q factors of 0.01 or 0.1. The optimal parameter solution determined by the <code>tune</code> function was a five-dimensional solution, with l2 penalty of 0.1 for both the p and q factors, and a stochastic gradient descent learning rate of 0.05.</p>
+<div class="cell">
+<div id="tbl-mf-example" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mf-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6: An example of the predicted ratings generated using matrix factorization versus the actual ratings for four users in the test ratings data set.
+</figcaption>
+<div aria-describedby="tbl-mf-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">User</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">ISBN</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Title</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Predicted Rating</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Actual Rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">276847</td>
+<td style="text-align: left;">3551551677</td>
+<td style="text-align: left;">Harry Potter und der Stein der Weisen</td>
+<td style="text-align: right;">9.500</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">276847</td>
+<td style="text-align: left;">3551551685</td>
+<td style="text-align: left;">Harry Potter und die Kammer des Schreckens</td>
+<td style="text-align: right;">9.757</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">277157</td>
+<td style="text-align: left;">0316154059</td>
+<td style="text-align: left;">City of Bones</td>
+<td style="text-align: right;">6.766</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">277157</td>
+<td style="text-align: left;">0345452550</td>
+<td style="text-align: left;">A Cold Heart: An Alex Delaware Novel</td>
+<td style="text-align: right;">6.061</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">277157</td>
+<td style="text-align: left;">0399148639</td>
+<td style="text-align: left;">Mortal Prey</td>
+<td style="text-align: right;">6.765</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">277157</td>
+<td style="text-align: left;">0743486226</td>
+<td style="text-align: left;">Angels &amp;amp; Demons</td>
+<td style="text-align: right;">6.860</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">46443</td>
+<td style="text-align: left;">0064400034</td>
+<td style="text-align: left;">Farmer Boy (Little House)</td>
+<td style="text-align: right;">8.251</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">46443</td>
+<td style="text-align: left;">0385729340</td>
+<td style="text-align: left;">The Second Summer of the Sisterhood</td>
+<td style="text-align: right;">9.052</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">46443</td>
+<td style="text-align: left;">0446310786</td>
+<td style="text-align: left;">To Kill a Mockingbird</td>
+<td style="text-align: right;">8.999</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">65191</td>
+<td style="text-align: left;">0375759778</td>
+<td style="text-align: left;">Prague : A Novel</td>
+<td style="text-align: right;">6.168</td>
+<td style="text-align: right;">9</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The matrix factorization model was then trained using the optimal parameters and the training data. The model was then used to predict ratings for the data in the test set. <a href="#tbl-mf-example" class="quarto-xref">Table&nbsp;6</a> shows the predicted ratings and actual ratings for four users in the test set. Two of the users (users 277157 and 46443) are the users shown in the examples in the item-based and user-based CF sections. In order to assess the accuracy of the matrix factorization recommender system, the root mean squared error (RMSE) was calculated using the predicted and actual ratings for the test data. The RMSE for this model was 1.642. This indicates that, on average, the ratings predicted by the matrix factorization model differ from the actual ratings by approximately 1.642 points on the rating scale. Therefore, the predicted ratings are reasonably close to the actual ratings but may be off by around 1.6 points on average.</p>
+<p>To assess the accuracy of the matrix factorization recommender system without regularization, another model was trained using the same optimal parameters as the original model but with l2 penalties for the p and q factors set to zero. The model without regularization was then used to predict ratings for the data in the test set. The RMSE for this model was 1.703 which is larger than the RMSE of the model with regularization. This indicates that regularization leads to better matrix factorization model performance.</p>
+</section>
+</section>
+<section id="ensemble-recommender-system-model" class="level2">
+<h2 class="anchored" data-anchor-id="ensemble-recommender-system-model">5. Ensemble Recommender System Model</h2>
+<p>The aim of this section was to create a final recommender system model that ensembles the predictions from the item-based CF, user-based CF and matrix factorization to predict the rating that a user will give a book. The accuracy of the ensemble predictions was assessed using the RMSE.</p>
+<section id="model-accuracy" class="level3">
+<h3 class="anchored" data-anchor-id="model-accuracy">5.1 Model Accuracy</h3>
+<p>Before the model accuracy could be assessed, the data preparation steps for the item-based CF and user-based CF were repeated using the training data. This was so the test data could be used to assess the accuracy of the ensemble model by comparing the predicted values to the actual values of the ratings in the test dataset.</p>
+<p>To calculate the ensemble predictions for the test set, the predicted ratings from the three different methods were added together and divided by three. The RMSE of the ensemble model was 1.747. Since this value is higher than the RMSE for both the regularized and unregularized matrix factorization models, it is the model with the worst performance so far.</p>
+<div class="cell">
+<div id="tbl-all-predictions" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-all-predictions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;7: An example of the ratings predicted using matrix factorization (MF), item-based collaborative filtering (IB-CF), user-based collaborative filtering (UB-CF), an ensemble approach (Ens) and a weighted ensemble approach (W-Ens). This is an example for four users in the test ratings data set.
+</figcaption>
+<div aria-describedby="tbl-all-predictions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">User</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">ISBN</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Actual Rating</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">MF</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">IB-CF</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">UB-CF</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Ens</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">W-Ens</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">276847</td>
+<td style="text-align: left;">3551551677</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">9.500</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">9.542</td>
+<td style="text-align: right;">6.347</td>
+<td style="text-align: right;">9.040</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">276847</td>
+<td style="text-align: left;">3551551685</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">9.757</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">9.359</td>
+<td style="text-align: right;">6.372</td>
+<td style="text-align: right;">9.130</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">277157</td>
+<td style="text-align: left;">0316154059</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">6.766</td>
+<td style="text-align: right;">6.644</td>
+<td style="text-align: right;">8.010</td>
+<td style="text-align: right;">7.140</td>
+<td style="text-align: right;">7.196</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">277157</td>
+<td style="text-align: left;">0345452550</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">6.061</td>
+<td style="text-align: right;">6.463</td>
+<td style="text-align: right;">8.316</td>
+<td style="text-align: right;">6.947</td>
+<td style="text-align: right;">6.870</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">277157</td>
+<td style="text-align: left;">0399148639</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6.765</td>
+<td style="text-align: right;">6.659</td>
+<td style="text-align: right;">8.059</td>
+<td style="text-align: right;">7.161</td>
+<td style="text-align: right;">7.213</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">277157</td>
+<td style="text-align: left;">0743486226</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">6.860</td>
+<td style="text-align: right;">6.486</td>
+<td style="text-align: right;">8.219</td>
+<td style="text-align: right;">7.188</td>
+<td style="text-align: right;">7.317</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">46443</td>
+<td style="text-align: left;">0064400034</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">8.251</td>
+<td style="text-align: right;">8.599</td>
+<td style="text-align: right;">7.993</td>
+<td style="text-align: right;">8.281</td>
+<td style="text-align: right;">8.178</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">46443</td>
+<td style="text-align: left;">0385729340</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">9.052</td>
+<td style="text-align: right;">8.873</td>
+<td style="text-align: right;">9.170</td>
+<td style="text-align: right;">9.032</td>
+<td style="text-align: right;">9.084</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">46443</td>
+<td style="text-align: left;">0446310786</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">8.999</td>
+<td style="text-align: right;">8.526</td>
+<td style="text-align: right;">9.256</td>
+<td style="text-align: right;">8.927</td>
+<td style="text-align: right;">9.065</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">65191</td>
+<td style="text-align: left;">0375759778</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">6.168</td>
+<td style="text-align: right;">10.000</td>
+<td style="text-align: right;">6.187</td>
+<td style="text-align: right;">7.452</td>
+<td style="text-align: right;">6.366</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>To determine which of the three methods included in the ensemble model had the worst performance, the RMSE of the item-based CF and the user-based CF were calculated. The RMSE of the item-based predictions was 2.944 while the RMSE of the user-based predictions was 1.761. This indicates that the item-based model had the worst performance, with the item-based predicted ratings differing from the actual ratings by almost three points on average. The user-based model had the second worst performance as it had a higher RMSE than the matrix factorization model. A weighted ensemble approach was then taken where the predicted rating was calculated with the following ratios: 60% from the matrix factorization predicted rating, 5% from the item-based CF predicted rating and 35% from the user-based CF predicted rating. This combination was the best tested combination of ratios that led to the lowest RMSE. The RMSE of the weighted ensemble model was 1.585. This is the model with the lowest RMSE out of all the tested models and therefore has the best performance.</p>
+<p><a href="#tbl-all-predictions" class="quarto-xref">Table&nbsp;7</a> shows the ratings predicted for four users in the test set using the five different models; matrix factorization, item-based CF, user-based CF, ensemble and weighted ensemble. As can be seen in the table, two of the item-based CF predicted ratings are equal to zero. Both of these ratings are for user 276847 (<a href="#tbl-all-predictions" class="quarto-xref">Table&nbsp;7</a>). After further investigation, it was revealed that this user had only three ratings in the ratings dataset, with only one rating in the training data. This is the probable cause of the zero ratings, as the user may not have rated enough books for the CF algorithm to make meaningful predictions.</p>
+</section>
+<section id="making-recommendations" class="level3">
+<h3 class="anchored" data-anchor-id="making-recommendations">5.2 Making Recommendations</h3>
+<p>Since the weighted ensemble model had the lowest RMSE, it was chosen as the best model. In order to make recommendations with this model, a matrix factorization model was trained on all of the ratings data. This was because recommendations are made for books that the user has not read, and the data used to train the model should be maximised. A function was then written which would take a user ID as input and compute the predicted book ratings for all books unread by the user using the item-based CF, user-based CF and matrix factorization models. The item-based and user-based CF models also used all the ratings data, as opposed to just the training ratings data. The weighted ensemble predictions were then calculated, and the books were sorted in descending order of the weighted ensemble predicted ratings.</p>
+<div class="cell">
+<div id="tbl-user-46443-reco" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-user-46443-reco-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;8: The top ten books recommended for user 46443 using a weighted ensemble recommender system.
+</figcaption>
+<div aria-describedby="tbl-user-46443-reco-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Rank</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Title</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">ISBN</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Predicted Rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">In the Heart of the Sea: The Tragedy of the Whaleship Essex</td>
+<td style="text-align: left;">0141001828</td>
+<td style="text-align: right;">9.995</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Chronicle of a Death Foretold</td>
+<td style="text-align: left;">0345310020</td>
+<td style="text-align: right;">9.951</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Postmarked Yesteryear: 30 Rare Holiday Postcards</td>
+<td style="text-align: left;">1888054557</td>
+<td style="text-align: right;">9.917</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch</td>
+<td style="text-align: left;">0441008615</td>
+<td style="text-align: right;">9.820</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Harry Potter and the Chamber of Secrets Postcard Book</td>
+<td style="text-align: left;">0439425220</td>
+<td style="text-align: right;">9.806</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">Name Der Rose</td>
+<td style="text-align: left;">3423105518</td>
+<td style="text-align: right;">9.805</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">The Little Prince</td>
+<td style="text-align: left;">0156012197</td>
+<td style="text-align: right;">9.777</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">The Time Traveler's Wife</td>
+<td style="text-align: left;">193156146X</td>
+<td style="text-align: right;">9.776</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">Fox in Socks (I Can Read It All by Myself Beginner Books)</td>
+<td style="text-align: left;">0394800389</td>
+<td style="text-align: right;">9.755</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">The Two Towers (The Lord of the Rings, Part 2)</td>
+<td style="text-align: left;">0618002235</td>
+<td style="text-align: right;">9.750</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="cell">
+<div id="tbl-user-277157-reco" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-user-277157-reco-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;9: The top ten books recommended for user 277157 using a weighted ensemble recommender system.
+</figcaption>
+<div aria-describedby="tbl-user-277157-reco-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table do-not-create-environment cell caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Rank</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Title</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">ISBN</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Predicted Rating</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">The Little Prince (Wordsworth Collection)</td>
+<td style="text-align: left;">1853261580</td>
+<td style="text-align: right;">8.850</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">The Lion, the Witch and the Wardrobe (rpkg) (Narnia)</td>
+<td style="text-align: left;">0064404994</td>
+<td style="text-align: right;">8.777</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">West With the Night</td>
+<td style="text-align: left;">0865471185</td>
+<td style="text-align: right;">8.759</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Good in Bed</td>
+<td style="text-align: left;">0743418166</td>
+<td style="text-align: right;">8.738</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">The Napping House</td>
+<td style="text-align: left;">0152567089</td>
+<td style="text-align: right;">8.722</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">Dune</td>
+<td style="text-align: left;">0425080021</td>
+<td style="text-align: right;">8.681</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">Speak</td>
+<td style="text-align: left;">014131088X</td>
+<td style="text-align: right;">8.670</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">Fox in Socks (I Can Read It All by Myself Beginner Books)</td>
+<td style="text-align: left;">0394800389</td>
+<td style="text-align: right;">8.663</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">Tender Is the Storm</td>
+<td style="text-align: left;">0380896931</td>
+<td style="text-align: right;">8.632</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">The No. 1 Ladies' Detective Agency (Today Show Book Club #8)</td>
+<td style="text-align: left;">1400034779</td>
+<td style="text-align: right;">8.626</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p><a href="#tbl-user-46443-reco" class="quarto-xref">Table&nbsp;8</a> and <a href="#tbl-user-277157-reco" class="quarto-xref">Table&nbsp;9</a> show the top 10 weighted ensemble recommended books for users 46443 and 277157 respectively. Since these books have not been rated by these specific users, one cannot calculate the prediction RMSE for this application of the model. However, since it had a low RMSE for the test data, one would assume that the model has sufficient performance and can make reasonable book recommendations for users.</p>
+<p>The weighted ensemble recommender system can also be used for new users if they provide ratings for a few books in the database. To predict book ratings for the new user, the matrices for the item-based and user-based CF would need to be recomputed with the new data and the matrix factorization model would need to be retrained. However, once this has been done, the recommender system would be able to make book recommendations for the user.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">6. Conclusion</h2>
+<p>Recommender systems were successfully built to predict user book ratings using item-based CF, user-based CF, and matrix factorization. An ensemble model using the three methods was then built to predict user book ratings. To improve the performance of the ensemble model, a weighted prediction was calculated, leading to the weighted ensemble model. The weighted ensemble model had the best performance (RMSE = 1.585), followed by matrix factorization (RMSE = 1.642), then the ensemble model (RMSE = 1.747), then the user-based CF (RMSE = 1.761), and lastly the item-based CF (RMSE = 2.944). The final recommender system would therefore be built using the weighted ensemble model.</p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="references" class="level2 unnumbered">
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-implicitScores" class="csl-entry" role="listitem">
+Kordumova, Suzana, Ivana Kostadinovska, Mauro Barbieri, Verus Pronk, and Jan Korst. 2010. <span>“Personalized Implicit Learning in a Music Recommender System.”</span> In, 351–62. <a href="https://doi.org/10.1007/978-3-642-13470-8_32">https://doi.org/10.1007/978-3-642-13470-8_32</a>.
+</div>
+<div id="ref-koren2009matrix" class="csl-entry" role="listitem">
+Koren, Yehuda, Robert Bell, and Chris Volinsky. 2009. <span>“Matrix Factorization Techniques for Recommender Systems.”</span> <em>Computer</em> 42 (8): 30–37.
+</div>
+<div id="ref-kaggleDataset" class="csl-entry" role="listitem">
+Nicoomanesh, Arash Nicoomanesh. 2023. <span>“Book Recommendation Dataset.”</span> September 2023. <a href="https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset">https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset</a>.
+</div>
+<div id="ref-recosystem" class="csl-entry" role="listitem">
+Qiu, Yixuan, David Cortes, Chih-Jen Lin, Yu-Chin Juan, Wei-Sheng Chin, Yong Zhuang, Bo-Wen Yuan, Meng-Yuan Yang, and et. al. 2023. <em>Recosystem: Recommender System Using Matrix Factorization</em>. <a href="https://CRAN.R-project.org/package=recosystem">https://CRAN.R-project.org/package=recosystem</a>.
+</div>
+<div id="ref-sarwar2001item" class="csl-entry" role="listitem">
+Sarwar, Badrul, George Karypis, Joseph Konstan, and John Riedl. 2001. <span>“Item-Based Collaborative Filtering Recommendation Algorithms.”</span> In <em>Proceedings of the 10th International Conference on World Wide Web</em>, 285–95.
+</div>
+<div id="ref-wang2021user" class="csl-entry" role="listitem">
+Wang, Hulong, Zesheng Shen, Shuzhen Jiang, Guang Sun, and Ren-Jie Zhang. 2021. <span>“User-Based Collaborative Filtering Algorithm Design and Implementation.”</span> In <em>Journal of Physics: Conference Series</em>, 1757:012168. 1. IOP Publishing.
+</div>
+<div id="ref-wang2006unifying" class="csl-entry" role="listitem">
+Wang, Jun, Arjen P De Vries, and Marcel JT Reinders. 2006. <span>“Unifying User-Based and Item-Based Collaborative Filtering Approaches by Similarity Fusion.”</span> In <em>Proceedings of the 29th Annual International ACM SIGIR Conference on Research and Development in Information Retrieval</em>, 501–8.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
